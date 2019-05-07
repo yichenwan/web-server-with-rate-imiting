@@ -21,11 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-	if (process.env.REDIS_URL) {
-		res.send(`Req # : ${req.numOfReq}`);
-	}  else {
-		res.send(`IP: ${req.clientIp}, Req # : ${req.numOfReq}, TTL # : ${req.ttl}`);
-	}
+	res.send(`Req # : ${req.numOfReq}`);
 });
 
 app.listen(process.env.PORT || 3000, () => {
