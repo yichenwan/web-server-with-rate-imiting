@@ -5,10 +5,10 @@ The project is an implementation of rate limiting using node.js and redis and ap
 
 ## Run server
 ```
-npm run start
+npm start
 ```
 
 ## Test rate limiting
 ```
-npm run test
+npm test
 ```
