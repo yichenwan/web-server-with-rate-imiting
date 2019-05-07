@@ -1,21 +1,4 @@
-const redis = require('redis');
-const Client = redis.createClient(process.env.REDIS_URL);
-Client.on('connect', () => {
-	console.log('connected');
-});
-
-const removeKey = (cb) => {
-	Client.flushall((err, reply) => {
-		// console.log('delete all keys');
-		cb(null, reply);
-	});	
-}
-
-const closeClient = (cb) => {
-  Client.end(true);
-}
-
-const RateLimiterWithList = (maxNumOfReq, interval) => {	
+const RateLimiterWithList = (maxNumOfReq, interval, Client) => {	
     return (ip, cb) => {
 	    Client.llen(ip, (err, numOfReq) => {  
 	    	if (numOfReq >= maxNumOfReq) {
@@ -53,7 +36,5 @@ const RateLimiterWithList = (maxNumOfReq, interval) => {
 };
 
 module.exports = {
-	removeKey,
-	closeClient,
-	RateLimiterWithList,
+	RateLimiterWithList
 }
