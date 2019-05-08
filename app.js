@@ -1,6 +1,6 @@
 const express = require('express');
 const requestIp = require('request-ip');
-const {RateLimiterWithList, rateLimiterWithList} = require('./rateLimiter');
+const {RateLimiterWithList} = require('./rateLimiter');
 const redis = require('redis');
 const Client = redis.createClient(process.env.REDIS_URL);
 Client.on('connect', () => {

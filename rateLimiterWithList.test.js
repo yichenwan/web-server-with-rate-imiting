@@ -2,7 +2,7 @@ const {RateLimiterWithList} = require('./rateLimiter');
 const redis = require('fakeredis');
 const async = require("async");
 
-const rateLimiterWithListResult = (Client) => {
+const RateLimiterWithListResult = (Client) => {
 	let numOfReq = {};
 	const rateLimiterWithList = RateLimiterWithList(60, 1, Client);	
 	return {
@@ -21,7 +21,7 @@ const rateLimiterWithListResult = (Client) => {
 
 test('Two requests in the interval', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   result.request(1, (err, numOfReq1) => {
   	result.request(1, (err, numOfReq2) => {
   		expect(numOfReq1).toBe(1);
@@ -33,7 +33,7 @@ test('Two requests in the interval', (done) => {
 
 test('Request that does not exceed the limit in the interval', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(50, (n, next) => {
     result.request(1, next); 
   }, (err) => {
@@ -45,7 +45,7 @@ test('Request that does not exceed the limit in the interval', (done) => {
 
 test('Multiple users\'s requests that does not exceed the limit in the interval', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(60, (n, next) => {
     result.request(n % 2 + 1, next); 
   }, (err) => {
@@ -58,7 +58,7 @@ test('Multiple users\'s requests that does not exceed the limit in the interval'
 
 test('Throws an error when requests exceed the limit of requests in the interval', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(61, (n, next) => {
     result.request('1', next); 
   }, (err, res) => {	
@@ -69,7 +69,7 @@ test('Throws an error when requests exceed the limit of requests in the interval
 
 test('Allow requests after the small interval  ', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(10, (n, next) => {
     result.request(1, next); 
   }, (err) => {
@@ -89,7 +89,7 @@ test('Allow requests after the small interval  ', (done) => {
 
 test('Throws an error when requests exceed the limit of requests after a small interval  ', (done) => { // 10 + 51
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(10, (n, next) => {
     result.request(1, next); 
   }, (err) => {
@@ -108,7 +108,7 @@ test('Throws an error when requests exceed the limit of requests after a small i
 
 test('Keep throwing errors when requests exceed the limit of requests', (done) => { // 10 + 51
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(10, (n, next) => {
     result.request(1, next); 
   }, (err) => {
@@ -135,7 +135,7 @@ test('Keep throwing errors when requests exceed the limit of requests', (done) =
 
 test('Reset number of requests after key expires', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(10, (n, next) => {
     result.request(1, next); 
   }, (err) => {
@@ -155,7 +155,7 @@ test('Reset number of requests after key expires', (done) => {
 
 test('After an error occurs, reset the request when the key expires', (done) => {
   const Client = redis.createClient();	
-  const result = rateLimiterWithListResult(Client);
+  const result = RateLimiterWithListResult(Client);
   async.times(61, (n, next) => {
     result.request(1, next); 
   }, (err) => {
