@@ -49,7 +49,9 @@ const RateLimiterWithString = (maxNumOfReq, interval, Client) => {
 	    	if (err) {
 	    		return cb(err.message);
 	    	}			
-			const numOfReq = replies[1];			    				    				    		
+			const numOfReq = replies[1];
+			if (typeof numOfReq !== 'number')	
+			    return cb('ERROR "too many requests per minute"');		    				    				    		
             if (numOfReq > maxNumOfReq) {
             	return cb('ERROR "too many requests per minute"');
             }					    				    			 
