@@ -1,4 +1,4 @@
-# web-server-with-rate-imiting
+# web-server-with-rate-limiting
 
 ## Introduction
 The project is an implementation of rate limiting using node.js and redis and applies it to a web server.
